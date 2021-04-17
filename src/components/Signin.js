@@ -42,16 +42,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn({ setName }) {
+  const classes = useStyles();
+
   const [disabled, setDisabled] = useState(true);
   const [string, setString] = useState("");
-  console.log({ disabled, string });
+  const [isComposed, setIsComposed] = useState(false);
+
+  console.log({ disabled, string, isComposed });
 
   useEffect(() => {
     const disabled = string === "";
     setDisabled(disabled);
   }, [string]);
-
-  const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -73,10 +75,18 @@ export default function SignIn({ setName }) {
             onChange={(e) => setString(e.target.value)}
             onKeyDown={(e) => {
               console.log(e.key);
+              if (isComposed) return;
+
               if (e.key === "Enter") {
                 setName(e.target.value);
                 e.preventDefault();
               }
+            }}
+            onCompositionStart={() => {
+              setIsComposed(true);
+            }}
+            onCompositionEnd={() => {
+              setIsComposed(false);
             }}
           />
           <Button
