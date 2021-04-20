@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MessageList() {
+const MessageList = () => {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
 
@@ -25,7 +25,6 @@ function MessageList() {
       .limitToLast(20)
       .on("value", (snapshot) => {
         const messages = snapshot.val();
-        console.log(messages);
         if (messages === null) return;
         const entries = Object.entries(messages);
         const newMessages = entries.map((entry) => {
@@ -36,17 +35,24 @@ function MessageList() {
         setMessages(newMessages);
       });
   }, []);
+
+  const length = messages.length;
   return (
     <List className={classes.root}>
-      {messages.map(({ key, name, text }) => {
+      {messages.map(({ key, name, text }, index) => {
+        const isLastItem = length === index + 1;
+        console.log(isLastItem);
         return (
-          <MessageItem key={key} name={name} text={text}>
-            item
-          </MessageItem>
+          <MessageItem
+            isLastItem={isLastItem}
+            key={key}
+            name={name}
+            text={text}
+          />
         );
       })}
     </List>
   );
-}
+};
 
 export default MessageList;
