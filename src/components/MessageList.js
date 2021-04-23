@@ -31,7 +31,7 @@ const MessageList = () => {
           const [key, nameAndText] = entry;
           return { key, ...nameAndText };
         });
-        console.log(newMessages);
+        // console.log(newMessages);
         setMessages(newMessages);
       });
   }, []);
@@ -42,6 +42,7 @@ const MessageList = () => {
       {messages.map(({ key, name, text }, index) => {
         const isLastItem = length === index + 1;
         console.log(isLastItem);
+        console.log({ name });
         return (
           <MessageItem
             isLastItem={isLastItem}
